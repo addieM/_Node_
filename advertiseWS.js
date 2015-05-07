@@ -13,8 +13,8 @@ noble.on('stateChange', function (state) {
 noble.on('discover', function (peripheral) {
 
     console.log('peripheral discovered (' + peripheral.uuid + '):');
-    console.log(' Name of Bluetooth Device(' + peripheral.advertisement.localName + ')');
-    console.log('Service to be Interested? :', +JSON.stringify(peripheral.advertisement.serviceUuids));
+    console.log('Name of Bluetooth Device(' + peripheral.advertisement.localName + ')');
+    console.log('Service to be Interested? :(' + JSON.stringify(peripheral.advertisement.serviceUuids) + ')');
     //console.log('\t' );
 
 
@@ -30,7 +30,7 @@ noble.on('discover', function (peripheral) {
             console.log('NO service Data for: ', peripheral.advertisement.localName + ',' + peripheral.uuid);
         } else {
             console.log('service data : ', serviceData);
-            console.log('Length : Size -> ', serviceData.length + serviceData.size);
+            console.log('Length : Size -> (' + serviceData.length + ',' + serviceData.size + ')');
             if (serviceData && serviceData.length) {
                 console.log(' 3');
                 console.log('\t there is my service data:');
@@ -49,7 +49,7 @@ noble.on('discover', function (peripheral) {
                 console.log('\tmy TX power level is:');
                 console.log('\t\t' + peripheral.advertisement.txPowerLevel);
             }
-            console.log(' 6');
+            console.log(' Last Line ! ');
         }
 
     }
