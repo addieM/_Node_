@@ -21,6 +21,17 @@ noble.on('discover', function (peripheral) {
                 for (var i in services) {
                     console.log('  ' + i + ' uuid: ' + services[i].uuid);
                 }
+                // ******** Getting information about 180a *********
+                var deviceInformationService = services[0];
+                console.log('discovered device information service');
+
+                deviceInformationService.discoverCharacteristics(null, function (error, characteristics) {
+                    console.log('discovered the following characteristics:');
+                    for (var i in characteristics) {
+                        console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
+                    }
+                });
+
             });
         }
     });
