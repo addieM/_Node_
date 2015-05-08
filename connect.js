@@ -1,12 +1,16 @@
 var noble = require('../index');
 var childProcess = require('child_process');
+var serviceUUIDs = ["fe1a56c98efa"];
 //checking the state of system and scan for BLE devices
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
         noble.startScanning();
         console.log('scanning...');
     } else {
-        console.log('not scanning');
+        console.log('not scanning.. will rescan for : ' + serviceUUIDs);
+        setTimeout(function (error) {
+        }, 2000);
+    }
         function runScript(scriptPath, callback) {
 
             // keep track of whether callback has been invoked to prevent multiple invocations
@@ -30,19 +34,17 @@ noble.on('stateChange', function (state) {
             });
 
         }
-
 // Now we can run a script and invoke a callback when complete, e.g.
         runScript('./connect.js', function (err) {
             if (err) throw err;
             console.log('finished running some-script.js');
         });
         noble.stopScanning();
-    }
 });
 
 noble.on('discover', function (peripheral) {
     peripheral.connect(function (error) {
-        var serviceUUIDs = ["fe1a56c98efa"];
+        //var serviceUUIDs = ["fe1a56c98efa"];
         if (serviceUUIDs == peripheral.uuid) {
             console.log('Trying to connect ...');
             console.log('connected to peripheral: ' + peripheral.uuid);
@@ -67,7 +69,7 @@ noble.on('discover', function (peripheral) {
                     console.log('manufacturerNameCharacteristic : ' + manufacturerNameCharacteristic);
                     //console.log('discovered manufacturer name characteristic');
                     manufacturerNameCharacteristic.notify(true, function (error) {
-                        console.log('Notification on');
+                        console.log('Notification on for :' + manufacturerNameCharacteristic.name);
                     });
                     manufacturerNameCharacteristic.read(function (error, data) {
                         // data is a buffer
@@ -75,9 +77,8 @@ noble.on('discover', function (peripheral) {
                         console.log('Incoming data : ' + data[1].toString(32));//data.toString('') / parseInt(data,16)
                         //******************************************************************
                     });
-                    manufacturerNameCharacteristic.on('read', function (data, isNotification) {
-                        console.log('New Value :', data[0].toString(32));
-
+                    manufacturerNameCharacteristic.on('read', function (data, onNotification) {
+                        console.log('New Value :', data[1].toString(32));
                     });
                 });
             });
