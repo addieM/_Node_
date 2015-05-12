@@ -35,7 +35,7 @@ noble.on('stateChange', function (state) {
         }
 
 // Now we can run a script and invoke a callback when complete, e.g.
-        runScript('./connect.js', function (err) {
+        runScript('./connect_2.js', function (err) {
             if (err) throw err;
             console.log('finished running some-script.js');
         });
@@ -49,7 +49,7 @@ noble.on('discover', function (peripheral) {
         //var serviceUUIDs = ["fe1a56c98efa"];
         if (serviceUUIDs == peripheral.uuid) {
             console.log('Trying to connect ...');
-            console.log('connected to peripheral: ' + peripheral.uuid);
+            console.log('Connected to peripheral: ' + peripheral.uuid);
             peripheral.discoverServices(null, function (error, services) {
                 console.log('Discovered the following services:');
                 for (var i in services) {
@@ -65,7 +65,17 @@ noble.on('discover', function (peripheral) {
                     for (var i in characteristics) {
                         console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
                     }
-                    //***********
+                    //***********getting information about uuid 2 ************
+                    var manufacturerNameCharacteristic = characteristics[1];
+                    console.log('manufacturerNameCharacteristic : ' + manufacturerNameCharacteristic);
+                    //console.log('discovered manufacturer name characteristic');
+                    manufacturerNameCharacteristic.notify(true, function (error) {
+                        console.log('Notification on for :' + manufacturerNameCharacteristic.name);
+                    });
+                    manufacturerNameCharacteristic.on('read', function (data, onNotification) {
+                        console.log('Place_1 :', data[0].toString(32));
+                        console.log('Place_2 :', data[1].toString(32));
+                    });
                 });
             });
         }
