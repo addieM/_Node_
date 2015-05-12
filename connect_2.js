@@ -65,39 +65,9 @@ noble.on('discover', function (peripheral) {
                     for (var i in characteristics) {
                         console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
                     }
-                    //******************************************************************
-                    //******** Getting information about characteristic 2a29 *********
-                    var manufacturerNameCharacteristic = characteristics[0];
-                    console.log('manufacturerNameCharacteristic : ' + manufacturerNameCharacteristic);
-                    //console.log('discovered manufacturer name characteristic');
-                    manufacturerNameCharacteristic.notify(true, function (error) {
-                        console.log('Notification on for :' + manufacturerNameCharacteristic.name);
-                    });
-                    manufacturerNameCharacteristic.read(function (error, data) {
-                        // data is a buffer
-                        console.log('length of data ' + data.length + ';' + ' data is (' + data + ')');
-                        console.log('Incoming data : ' + data[1].toString(32));//data.toString('') / parseInt(data,16)
-                        //******************************************************************
-                    });
-                    manufacturerNameCharacteristic.on('read', function (data, onNotification) {
-                        console.log('New Value :', data[1].toString(32));
-                    });
+                    //***********
                 });
             });
-            //******************************************************************
         }
     });
-    /*var exitHandler = function exitHandler() {
-     peripherals.forEach(function(peripheral) {
-     console.log('Disconnecting from ' + peripheral.uuid + '...');
-     peripheral.disconnect( function(){
-     console.log('disconnected');
-     });
-     });
-
-     //end process after 2 more seconds
-     setTimeout(function(){
-     process.exit();
-     }, 2000);
-     }*/
 });
